@@ -1,7 +1,11 @@
 const express = require('express');
 const gravatar = require('gravatar');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const { secretOrKey } = require("../../config/keys");
+const passport = require('passport');
 const User = require('../../models/User');
+
 const router = express.Router();
 
 
@@ -59,8 +63,34 @@ router.post('/login', async (req, res) => {
     return res.status(400).json({email: 'Authentication Error, Please check your password'});
   }
 
-  return res.json({msg: 'Success!'});
+  // Our payload, this can be decoded and used later on
+  const payload = {
+    id: user.id,
+    name: user.name,
+    avatar: user.avatar,
+  };
+
+  // Sign Token
+  const jwtToken = await jwt.sign(payload, secretOrKey, {expiresIn: 3600});
+
+  return res.json({
+      msg: 'Success!',
+      token: 'Bearer ' + jwtToken,
+  });
 
 });
+
+
+/**
+ * Return the current user
+ */
+router.get('/current', passport.authenticate('jwt', { session: false }),
+  (req, res) => {
+    res.json({
+      name: req.user.name,
+      email: req.user.email,
+    })
+  }
+);
 
 module.exports = router;
