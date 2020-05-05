@@ -2,6 +2,7 @@ const Validator = require("validator");
 const isEmpty = require("./is-empty");
 
 module.exports = function validateRegisterInput(data) {
+  console.log(data);
   let errors = {};
 
   if (!Validator.isLength(data.name, { min: 2, max: 30 })) {
@@ -12,7 +13,7 @@ module.exports = function validateRegisterInput(data) {
     errors.name = "Name cannot be empty";
   }
 
-  if (Validator.isEmail(data.email)) {
+  if (!Validator.isEmail(data.email)) {
     errors.email = "Email is invalid";
   }
 
