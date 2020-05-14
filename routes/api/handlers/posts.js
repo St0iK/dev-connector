@@ -55,7 +55,7 @@ const createPost = async (req, res) => {
         user: req.user.id
     });
 
-    const post = await newPost.save().exec();
+    const post = await newPost.save();
     res.json(post);
 };
 
@@ -116,7 +116,7 @@ const unlikePost = async (req, res) => {
         // Splice out of array
         post.likes.splice(removeIndex, 1);
         // Save
-        const updatedPost = await post.save().exec();
+        const updatedPost = await post.save();
         res.json(updatedPost)
     } catch (error) {
         res.status(404).json({ postnotfound: 'No post found' })
@@ -146,7 +146,7 @@ const addComment = async (req, res) => {
         // Add to comments array
         post.comments.unshift(newComment);
         // Save
-        const updatedPost = await post.save().exec();
+        const updatedPost = await post.save();
         res.json(updatedPost)
     } catch (error) {
         res.status(404).json({ postnotfound: 'No post found' });
@@ -168,7 +168,7 @@ const deleteComment = async (req, res) => {
         const removeIndex = post.comments.map(item => item._id.toString()).indexOf(req.params.comment_id);
         // Splice comment out of array
         post.comments.splice(removeIndex, 1);
-        const updatedPost = post.save().exec();
+        const updatedPost = post.save();
         res.json(updatedPost)
 
     } catch (error) {

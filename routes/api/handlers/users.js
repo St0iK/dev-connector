@@ -53,7 +53,7 @@ const registerUser = async (req, res) => {
             if (err) throw err;
             newUser.password = hash;
             // save new user, and return it
-            const user = await newUser.save().exec().catch(err => console.log(err));
+            const user = await newUser.save().catch(err => console.log(err));
             res.json(user);
         });
     });
