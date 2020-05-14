@@ -26,7 +26,7 @@ const registerUser = async (req, res) => {
         return res.status(400).json(errors);
     }
 
-    const user = await User.findOne({ email: req.body.email });
+    const user = await User.findOne({ email: req.body.email }).exec();
 
     if (user) {
         errors.email = 'Email already exists';
@@ -53,7 +53,7 @@ const registerUser = async (req, res) => {
             if (err) throw err;
             newUser.password = hash;
             // save new user, and return it
-            const user = await newUser.save().catch(err => console.log(err));
+            const user = await newUser.save().exec().catch(err => console.log(err));
             res.json(user);
         });
     });
@@ -76,7 +76,7 @@ const loginUser = async (req, res) => {
     const password = req.body.password;
 
     // Find user by email
-    const user = await User.findOne({ email });
+    const user = await User.findOne({ email }).exec();
 
     // Check for user
     if (!user) {
