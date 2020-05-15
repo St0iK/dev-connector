@@ -1,7 +1,7 @@
 const express = require('express');
 const router = express.Router();
 const passport = require('passport');
-const userHandler = require('./handlers/users');
+const userHandler = require('./handlers/user');
 
 router.get('/test', userHandler.test);
 router.post('/register', userHandler.registerUser);

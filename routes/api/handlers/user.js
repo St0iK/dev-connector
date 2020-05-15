@@ -1,5 +1,5 @@
 const validateRegisterInput = require('../../../validation/register');
-const validateLoginInput = require('../../../validation//login');
+const validateLoginInput = require('../../../validation/login');
 const User = require('../../../models/User');
 const gravatar = require('gravatar');
 const bcrypt = require('bcryptjs');
