@@ -2,11 +2,6 @@ const Post = require('../../../models/Post');
 const validatePostInput = require('../../../validation/post');
 
 /**
- * Test endpoint
- */
-const test = (req, res) => res.json({ msg: 'Posts Works' });
-
-/**
  * Get a list of Posts
  */
 const getPosts = async (req, res) => {
@@ -160,7 +155,6 @@ const deleteComment = async (req, res) => {
 };
 
 module.exports = {
-    test,
     getPosts,
     getPostById,
     createPost,

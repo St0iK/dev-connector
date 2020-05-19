@@ -4,21 +4,14 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const keys = require('../../../config/keys')
 const { validationResult } = require('express-validator');
-/**
- * Test
- */
-const test = (req, res) => res.json({ msg: 'Users Works' })
+const errorFormatter = require('../../../utils/error-formatter');
 
-/**
- * Register User
- */
 const registerUser = async (req, res) => {
-
     const errors = validationResult(req);
-
+    console.log({ errors });
     if (!errors.isEmpty()) {
         console.log({ errors });
-        return res.status(400).json(errors);
+        return res.status(400).json(errorFormatter(errors));
     }
 
     const user = await User.findOne({ email: req.body.email }).exec();
@@ -60,9 +53,7 @@ const registerUser = async (req, res) => {
 const loginUser = async (req, res) => {
     const errors = validationResult(req);
     if (!errors.isEmpty()) {
-        const extractedErrors = {};
-        errors.array({ onlyFirstError: true }).map(err => extractedErrors[err.param] = err.msg);
-        return res.status(400).json(extractedErrors);
+        return res.status(400).json(errorFormatter(errors));
     }
 
     const email = req.body.email;
@@ -108,7 +99,6 @@ const currentUser = (req, res) => {
 }
 
 module.exports = {
-    test,
     registerUser,
     loginUser,
     currentUser,

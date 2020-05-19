@@ -4,8 +4,6 @@ const validateEducationInput = require("../../../validation/education");
 const Profile = require("../../../models/Profile");
 const User = require("../../../models/User");
 
-const test = (req, res) => res.json({ msg: "Profile Works" });
-
 /**
  * Get Current Profile, user exists on the request object 
  */
@@ -236,7 +234,6 @@ const deleteProfile = async (req, res) => {
 }
 
 module.exports = {
-    test,
     getCurrentProfile,
     getAllProfiles,
     getProfileByHandle,

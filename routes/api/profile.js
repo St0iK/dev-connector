@@ -3,7 +3,6 @@ const router = express.Router();
 const profileHandler = require('./handlers/profile');
 const passport = require("passport");
 
-router.get("/test", profileHandler.test);
 router.get("/", passport.authenticate("jwt", { session: false }), profileHandler.getCurrentProfile);
 router.get("/all", profileHandler.getAllProfiles);
 router.get("/handle/:handle", profileHandler.getProfileByHandle);

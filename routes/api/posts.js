@@ -3,7 +3,6 @@ const router = express.Router();
 const passport = require('passport');
 const postsHandler = require('./handlers/post');
 
-router.get('/test', postsHandler.test);
 router.get('/', postsHandler.getPosts);
 router.get('/:id', postsHandler.getPostById);
 router.post('/', passport.authenticate('jwt', { session: false }), postsHandler.createPost);
