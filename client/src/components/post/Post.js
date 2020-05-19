@@ -20,6 +20,8 @@ class Post extends Component {
     if (post === null || loading || Object.keys(post).length === 0) {
       postContent = <Spinner />;
     } else {
+      console.log({ post });
+      console.log(post._id);
       postContent = (
         <div>
           <PostItem post={post} showActions={false} />

@@ -33,7 +33,9 @@ class CommentForm extends Component {
       name: user.name,
       avatar: user.avatar
     };
-
+    console.log('calling add comment');
+    console.log({ postId });
+    console.log({ newComment });
     this.props.addComment(postId, newComment);
     this.setState({ text: '' });
   }
@@ -74,7 +76,7 @@ class CommentForm extends Component {
 }
 
 CommentForm.propTypes = {
-  addPost: PropTypes.func.isRequired,
+  addComment: PropTypes.func.isRequired,
   auth: PropTypes.object.isRequired,
   postId: PropTypes.string.isRequired,
   errors: PropTypes.object.isRequired

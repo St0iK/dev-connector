@@ -113,6 +113,7 @@ const unlikePost = async (req, res) => {
  * Add a new Comment
  */
 const addComment = async (req, res) => {
+
     const { errors, isValid } = validatePostInput(req.body);
     // Check Validation
     if (!isValid) {
@@ -120,7 +121,7 @@ const addComment = async (req, res) => {
         return res.status(400).json(errors);
     }
     try {
-        const post = Post.findById(req.params.id);
+        const post = await Post.findById(req.params.id);
         const newComment = {
             text: req.body.text,
             name: req.body.name,
