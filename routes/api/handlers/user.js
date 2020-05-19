@@ -1,11 +1,9 @@
-// const validateRegisterInput = require('../../../validation/register');
-const validateLoginInput = require('../../../validation/login');
 const User = require('../../../models/User');
 const gravatar = require('gravatar');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const keys = require('../../../config/keys')
-const { validationResult } = require('express-validator/check');
+const { validationResult } = require('express-validator');
 /**
  * Test
  */
@@ -61,9 +59,10 @@ const registerUser = async (req, res) => {
  */
 const loginUser = async (req, res) => {
     const errors = validationResult(req);
-
     if (!errors.isEmpty()) {
-        return res.status(400).json(errors);
+        const extractedErrors = {};
+        errors.array({ onlyFirstError: true }).map(err => extractedErrors[err.param] = err.msg);
+        return res.status(400).json(extractedErrors);
     }
 
     const email = req.body.email;

@@ -1,4 +1,4 @@
-const { check } = require('express-validator/check');
+const { check } = require('express-validator');
 
 const validateRegister = [
     check('name', 'Name is required').not().isEmpty(),
