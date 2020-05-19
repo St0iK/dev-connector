@@ -1,8 +1,7 @@
-const validateProfileInput = require("../../../validation/profile");
-const validateExperienceInput = require("../../../validation/experience");
-const validateEducationInput = require("../../../validation/education");
 const Profile = require("../../../models/Profile");
 const User = require("../../../models/User");
+const { validationResult } = require('express-validator');
+const errorFormatter = require('../../../utils/error-formatter');
 
 /**
  * Get Current Profile, user exists on the request object 
@@ -77,41 +76,33 @@ const getProfileByUserId = async (req, res) => {
  * Create or Update profile 
  */
 const createOrUpdateProfile = async (req, res) => {
-    const { errors, isValid } = validateProfileInput(req.body);
+    const errors = validationResult(req);
 
-    // Check Validation
-    if (!isValid) {
-        // Return any errors with 400 status
-        return res.status(400).json(errors);
+    if (!errors.isEmpty()) {
+        return res.status(400).json(errorFormatter(errors));
     }
 
-    // Get fields
-    const profileFields = {};
-    profileFields.user = req.user.id;
-    if (req.body.handle) profileFields.handle = req.body.handle;
-    if (req.body.company) profileFields.company = req.body.company;
-    if (req.body.website) profileFields.website = req.body.website;
-    if (req.body.location) profileFields.location = req.body.location;
-    if (req.body.bio) profileFields.bio = req.body.bio;
-    if (req.body.status) profileFields.status = req.body.status;
-    if (req.body.githubusername)
-        profileFields.githubusername = req.body.githubusername;
-    // Skills - Spilt into array
-    if (typeof req.body.skills !== "undefined") {
-        profileFields.skills = req.body.skills.split(",");
-    }
-
-    // Social
-    profileFields.social = {};
-    if (req.body.youtube) profileFields.social.youtube = req.body.youtube;
-    if (req.body.twitter) profileFields.social.twitter = req.body.twitter;
-    if (req.body.facebook) profileFields.social.facebook = req.body.facebook;
-    if (req.body.linkedin) profileFields.social.linkedin = req.body.linkedin;
-    if (req.body.instagram) profileFields.social.instagram = req.body.instagram;
+    const profileFields = {
+        user: req.user.id,
+        handle: req.body.handle,
+        company: req.body.company,
+        website: req.body.website,
+        location: req.body.location,
+        bio: req.body.handle,
+        status: req.body.handle,
+        githubusername: req.body.githubusername,
+        skills: (typeof req.body.skills !== "undefined") ? req.body.skills.split(",") : null,
+        social: {
+            youtube: req.body.youtube,
+            twitter: req.body.twitter,
+            facebook: req.body.facebook,
+            linkedin: req.body.linkedin,
+            instagram: req.body.instagram,
+        }
+    };
 
     const profile = await Profile.findOne({ user: req.user.id }).exec();
     if (profile) {
-        // Update
         const updatedProfile = await Profile.findOneAndUpdate(
             { user: req.user.id },
             { $set: profileFields },
@@ -119,14 +110,12 @@ const createOrUpdateProfile = async (req, res) => {
         );
         res.json(updatedProfile)
     } else {
-        // Check if handle exists
         const userWithHandle = await Profile.findOne({ handle: profileFields.handle }).exec();
         if (userWithHandle) {
             errors.handle = "That handle already exists";
             res.status(400).json(errors);
         }
 
-        // Save Profile
         const createdProfile = await new Profile(profileFields).save();
         res.json(createdProfile)
     }
@@ -136,10 +125,9 @@ const createOrUpdateProfile = async (req, res) => {
  * Add Experience
  */
 const addExperience = async (req, res) => {
-    const { errors, isValid } = validateExperienceInput(req.body);
+    const errors = validationResult(req);
 
-    // Check Validation
-    if (!isValid) {
+    if (!errors.isEmpty()) {
         // Return any errors with 400 status
         return res.status(400).json(errors);
     }
@@ -160,17 +148,12 @@ const addExperience = async (req, res) => {
 
     const updatedProfile = await profile.save();
     res.json(updatedProfile)
-
 }
 
-/**
- * 
- */
 const addEducation = async (req, res) => {
-    const { errors, isValid } = validateEducationInput(req.body);
+    const errors = validationResult(req);
 
-    // Check Validation
-    if (!isValid) {
+    if (!errors.isEmpty()) {
         // Return any errors with 400 status
         return res.status(400).json(errors);
     }
