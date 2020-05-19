@@ -1,11 +1,11 @@
-const validateRegisterInput = require('../../../validation/register');
+// const validateRegisterInput = require('../../../validation/register');
 const validateLoginInput = require('../../../validation/login');
 const User = require('../../../models/User');
 const gravatar = require('gravatar');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const keys = require('../../../config/keys');
-
+const keys = require('../../../config/keys')
+const { validationResult } = require('express-validator/check');
 /**
  * Test
  */
@@ -15,10 +15,11 @@ const test = (req, res) => res.json({ msg: 'Users Works' })
  * Register User
  */
 const registerUser = async (req, res) => {
-    const { errors, isValid } = validateRegisterInput(req.body);
 
-    // Check Validation
-    if (!isValid) {
+    const errors = validationResult(req);
+
+    if (!errors.isEmpty()) {
+        console.log({ errors });
         return res.status(400).json(errors);
     }
 
@@ -59,10 +60,9 @@ const registerUser = async (req, res) => {
  * Login User
  */
 const loginUser = async (req, res) => {
-    const { errors, isValid } = validateLoginInput(req.body);
+    const errors = validationResult(req);
 
-    // Check Validation
-    if (!isValid) {
+    if (!errors.isEmpty()) {
         return res.status(400).json(errors);
     }
 
