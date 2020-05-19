@@ -3,14 +3,11 @@ const validateExperienceInput = require("../../../validation/experience");
 const validateEducationInput = require("../../../validation/education");
 const Profile = require("../../../models/Profile");
 const User = require("../../../models/User");
-const User = require("../../../models/User");
 
 const test = (req, res) => res.json({ msg: "Profile Works" });
 
 /**
- * Get Current Profile, user exists on the request object
- * @param {Request} req 
- * @param {Response} res 
+ * Get Current Profile, user exists on the request object 
  */
 const getCurrentProfile = async (req, res) => {
     const errors = {};
@@ -28,8 +25,6 @@ const getCurrentProfile = async (req, res) => {
 
 /**
  * Get All Profiles
- * @param {Request} req 
- * @param {Response} res 
  */
 const getAllProfiles = async (req, res) => {
     const errors = {};
@@ -47,14 +42,12 @@ const getAllProfiles = async (req, res) => {
 
 /**
  * Get Profile By Handle
- * @param {Request} req 
- * @param {Response} res 
  */
 const getProfileByHandle = async (req, res) => {
 
     const errors = {};
     try {
-        const profile = await Profile.findOne({ handle: req.params.handle }).populate("user", ["name", "avatar"]).exec()
+        const profile = await Profile.findOne({ handle: req.params.handle }).populate("user", ["name", "avatar"]).exec();
         if (!profile) {
             errors.noprofile = "There is no profile for this user";
             return res.status(404).json(errors);
@@ -67,8 +60,6 @@ const getProfileByHandle = async (req, res) => {
 
 /**
  * Get Profile by User Id
- * @param {Request} req 
- * @param {Response} res 
  */
 const getProfileByUserId = async (req, res) => {
     const errors = {};
@@ -85,9 +76,7 @@ const getProfileByUserId = async (req, res) => {
 }
 
 /**
- * Create or Update profile
- * @param {Request} req 
- * @param {Response} res 
+ * Create or Update profile 
  */
 const createOrUpdateProfile = async (req, res) => {
     const { errors, isValid } = validateProfileInput(req.body);
@@ -147,8 +136,6 @@ const createOrUpdateProfile = async (req, res) => {
 
 /**
  * Add Experience
- * @param {Request} req 
- * @param {Response} res 
  */
 const addExperience = async (req, res) => {
     const { errors, isValid } = validateExperienceInput(req.body);
@@ -178,11 +165,8 @@ const addExperience = async (req, res) => {
 
 }
 
-
 /**
  * 
- * @param {Request} req 
- * @param {Response} res 
  */
 const addEducation = async (req, res) => {
     const { errors, isValid } = validateEducationInput(req.body);
@@ -211,11 +195,10 @@ const addEducation = async (req, res) => {
     res.json(updatedProfile)
 }
 
-
 /**
- * 
- * @param {Request} req 
- * @param {Response} res 
+ * Delete Experience
+ * @param {*} req 
+ * @param {*} res 
  */
 const deleteExperience = async (req, res) => {
     const profile = await Profile.findOne({ user: req.user.id }).catch((err) => res.status(404).json(err));

@@ -8,15 +8,11 @@ const keys = require('../../../config/keys');
 
 /**
  * Test
- * @param {Request} req 
- * @param {Response} res 
  */
 const test = (req, res) => res.json({ msg: 'Users Works' })
 
 /**
  * Register User
- * @param {Request} req 
- * @param {Response} res 
  */
 const registerUser = async (req, res) => {
     const { errors, isValid } = validateRegisterInput(req.body);
@@ -61,8 +57,6 @@ const registerUser = async (req, res) => {
 
 /**
  * Login User
- * @param {Request} req 
- * @param {Response} res 
  */
 const loginUser = async (req, res) => {
     const { errors, isValid } = validateLoginInput(req.body);
@@ -105,8 +99,6 @@ const loginUser = async (req, res) => {
 
 /**
  * User will get populated from Passport
- * @param {Request} req 
- * @param {Response} res 
  */
 const currentUser = (req, res) => {
     res.json({

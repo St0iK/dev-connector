@@ -3,15 +3,11 @@ const validatePostInput = require('../../../validation/post');
 
 /**
  * Test endpoint
- * @param {Request} req 
- * @param {Response} res 
  */
 const test = (req, res) => res.json({ msg: 'Posts Works' });
 
 /**
  * Get a list of Posts
- * @param {Request} req 
- * @param {Response} res 
  */
 const getPosts = async (req, res) => {
     try {
@@ -24,8 +20,6 @@ const getPosts = async (req, res) => {
 
 /**
  * Get a post by ID
- * @param {Request} req 
- * @param {Response} res 
  */
 const getPostById = async (req, res) => {
     try {
@@ -38,8 +32,6 @@ const getPostById = async (req, res) => {
 
 /**
  * Create a new Post
- * @param {Request} req 
- * @param {Response} res 
  */
 const createPost = async (req, res) => {
     const { errors, isValid } = validatePostInput(req.body);
@@ -61,8 +53,6 @@ const createPost = async (req, res) => {
 
 /**
  * Delete a post
- * @param {Request} req 
- * @param {Response} res 
  */
 const deletePost = async (req, res) => {
     try {
@@ -72,7 +62,7 @@ const deletePost = async (req, res) => {
             return res.status(401).json({ notauthorized: 'User not authorized' });
         }
         // Delete
-        await post.remove().exec();
+        await post.remove();
         res.json({ success: true });
 
     } catch (error) {
@@ -82,8 +72,6 @@ const deletePost = async (req, res) => {
 
 /**
  * Like a post
- * @param {Request} req 
- * @param {Response} res 
  */
 const likePost = async (req, res) => {
     try {
@@ -102,12 +90,10 @@ const likePost = async (req, res) => {
 
 /**
  * Unlike a post
- * @param {Request} req 
- * @param {Response} res 
  */
 const unlikePost = async (req, res) => {
     try {
-        const post = Post.findById(req.params.id).exec();
+        const post = await Post.findById(req.params.id).exec();
         if (post.likes.filter(like => like.user.toString() === req.user.id).length === 0) {
             return res.status(400).json({ notliked: 'You have not yet liked this post' });
         }
@@ -125,8 +111,6 @@ const unlikePost = async (req, res) => {
 
 /**
  * Add a new Comment
- * @param {Request} req 
- * @param {Response} res 
  */
 const addComment = async (req, res) => {
     const { errors, isValid } = validatePostInput(req.body);
@@ -155,11 +139,9 @@ const addComment = async (req, res) => {
 
 /**
  * Delete a comment
- * @param {Request} req 
- * @param {Response} res 
  */
 const deleteComment = async (req, res) => {
-    const post = Post.findById(req.params.id).exec();
+    const post = await Post.findById(req.params.id).exec();
     try {
         if (post.comments.filter(comment => comment._id.toString() === req.params.comment_id).length === 0) {
             return res.status(404).json({ commentnotexists: 'Comment does not exist' });
@@ -168,7 +150,7 @@ const deleteComment = async (req, res) => {
         const removeIndex = post.comments.map(item => item._id.toString()).indexOf(req.params.comment_id);
         // Splice comment out of array
         post.comments.splice(removeIndex, 1);
-        const updatedPost = post.save();
+        const updatedPost = await post.save();
         res.json(updatedPost)
 
     } catch (error) {
