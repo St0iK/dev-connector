@@ -14,6 +14,8 @@
   "author": "Brad Traversy",
   "license": "MIT",
   "dependencies": {
+    "awilix": "^4.2.6",
+    "awilix-express": "^3.0.0",
     "bcryptjs": "^2.4.3",
     "body-parser": "^1.18.2",
     "concurrently": "^3.5.1",

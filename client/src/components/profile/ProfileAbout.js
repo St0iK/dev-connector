@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
-import isEmpty from '../../validation/is-empty';
+import isEmpty from '../../utils/is-empty';
 
 class ProfileAbout extends Component {
   render() {
@@ -25,8 +25,8 @@ class ProfileAbout extends Component {
               {isEmpty(profile.bio) ? (
                 <span>{firstName} does not have a bio</span>
               ) : (
-                <span>{profile.bio}</span>
-              )}
+                  <span>{profile.bio}</span>
+                )}
             </p>
             <hr />
             <h3 className="text-center text-info">Skill Set</h3>

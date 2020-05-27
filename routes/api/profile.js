@@ -2,12 +2,13 @@ const express = require("express");
 const router = express.Router();
 const profileHandler = require('./handlers/profile');
 const passport = require("passport");
+const { validateProfile } = require('../../validation/profile.js');
 
 router.get("/", passport.authenticate("jwt", { session: false }), profileHandler.getCurrentProfile);
 router.get("/all", profileHandler.getAllProfiles);
 router.get("/handle/:handle", profileHandler.getProfileByHandle);
 router.get("/user/:user_id", profileHandler.getProfileByUserId);
-router.post("/", passport.authenticate("jwt", { session: false }), profileHandler.createOrUpdateProfile);
+router.post("/", validateProfile, passport.authenticate("jwt", { session: false }), profileHandler.createOrUpdateProfile);
 router.post("/experience", passport.authenticate("jwt", { session: false }), profileHandler.addExperience);
 router.post("/education", passport.authenticate("jwt", { session: false }), profileHandler.addEducation);
 router.delete("/experience/:exp_id", passport.authenticate("jwt", { session: false }), profileHandler.deleteExperience);

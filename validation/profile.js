@@ -1,67 +1,22 @@
-const Validator = require('validator');
-const isEmpty = require('./is-empty');
+const { check } = require('express-validator');
 
-module.exports = function validateProfileInput(data) {
-  let errors = {};
+const validateProfile = [
+  check('handle', 'Please enter a handle between 2 & 10 characters').isLength({
+    min: 2,
+    max: 10
+  }),
+  check('email', 'Please include a valid email').isEmail(),
+  check('status', 'Please include a  status').not().isEmpty(),
+  check('skills', 'Please include skills').not().isEmpty(),
+  check('website', 'Please include website').isURL(),
+  check('youtube', 'Please include youtube').isURL(),
+  check('twitter', 'Please include twitter').isURL(),
+  check('facebook', 'Please include facebook').isURL(),
+  check('linkedin', 'Please include linkedin').isURL(),
+  check('instagram', 'Please include instagram').isURL(),
+];
 
-  data.handle = !isEmpty(data.handle) ? data.handle : '';
-  data.status = !isEmpty(data.status) ? data.status : '';
-  data.skills = !isEmpty(data.skills) ? data.skills : '';
 
-  if (!Validator.isLength(data.handle, { min: 2, max: 40 })) {
-    errors.handle = 'Handle needs to between 2 and 4 characters';
-  }
-
-  if (Validator.isEmpty(data.handle)) {
-    errors.handle = 'Profile handle is required';
-  }
-
-  if (Validator.isEmpty(data.status)) {
-    errors.status = 'Status field is required';
-  }
-
-  if (Validator.isEmpty(data.skills)) {
-    errors.skills = 'Skills field is required';
-  }
-
-  if (!isEmpty(data.website)) {
-    if (!Validator.isURL(data.website)) {
-      errors.website = 'Not a valid URL';
-    }
-  }
-
-  if (!isEmpty(data.youtube)) {
-    if (!Validator.isURL(data.youtube)) {
-      errors.youtube = 'Not a valid URL';
-    }
-  }
-
-  if (!isEmpty(data.twitter)) {
-    if (!Validator.isURL(data.twitter)) {
-      errors.twitter = 'Not a valid URL';
-    }
-  }
-
-  if (!isEmpty(data.facebook)) {
-    if (!Validator.isURL(data.facebook)) {
-      errors.facebook = 'Not a valid URL';
-    }
-  }
-
-  if (!isEmpty(data.linkedin)) {
-    if (!Validator.isURL(data.linkedin)) {
-      errors.linkedin = 'Not a valid URL';
-    }
-  }
-
-  if (!isEmpty(data.instagram)) {
-    if (!Validator.isURL(data.instagram)) {
-      errors.instagram = 'Not a valid URL';
-    }
-  }
-
-  return {
-    errors,
-    isValid: isEmpty(errors)
-  };
-};
+module.exports = {
+  validateProfile
+}
