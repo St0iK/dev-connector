@@ -1,5 +1,6 @@
+import { validationResult } from 'express-validator';
+import errorFormatter from '../../../utils/error-formatter';
 const Post = require('../../../models/Post');
-const validatePostInput = require('../../../validation/post');
 
 /**
  * Get a list of Posts
@@ -29,10 +30,9 @@ const getPostById = async (req, res) => {
  * Create a new Post
  */
 const createPost = async (req, res) => {
-    const { errors, isValid } = validatePostInput(req.body);
-    // Check Validation
-    if (!isValid) {
-        return res.status(400).json(errors);
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json(errorFormatter(errors));
     }
 
     const newPost = new Post({
@@ -109,12 +109,11 @@ const unlikePost = async (req, res) => {
  */
 const addComment = async (req, res) => {
 
-    const { errors, isValid } = validatePostInput(req.body);
-    // Check Validation
-    if (!isValid) {
-        // If any errors, send 400 with errors object
-        return res.status(400).json(errors);
+    const errors = validationResult(req);
+    if (!errors.isEmpty()) {
+        return res.status(400).json(errorFormatter(errors));
     }
+
     try {
         const post = await Post.findById(req.params.id);
         const newComment = {
