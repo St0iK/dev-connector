@@ -21,8 +21,8 @@ module.exports = ({ logger, config }) => {
   // console.log(`Mongoose default connection is open to ${uri}`);
   return new Promise((resolve, reject) => {
     mongoose.connection.on('connected', () => {
-      logger.info(`Mongoose default connection is open to ${uri}`);
-      console.log(`Mongoose default connection is open to ${uri}`);
+      logger.info(`Mongoose default connection is open to ${config.db}`);
+      console.log(`Mongoose default connection is open to ${config.db}`);
       resolve(mongoose.connection)
     });
   });

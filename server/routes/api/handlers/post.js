@@ -1,6 +1,6 @@
-import { validationResult } from 'express-validator';
-import errorFormatter from '../../../utils/error-formatter';
 const Post = require('../../../models/Post');
+const { validationResult } = require('express-validator');
+const errorFormatter = require('../../../utils/error-formatter');
 
 /**
  * Get a list of Posts

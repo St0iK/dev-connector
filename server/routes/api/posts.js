@@ -2,7 +2,7 @@ const express = require('express');
 const router = express.Router();
 const passport = require('passport');
 const postsHandler = require('./handlers/post');
-import { validatePostInput } from '../../validation/post';
+const { validatePostInput } = require('../../validation/post');
 
 router.get('/', postsHandler.getPosts);
 router.get('/:id', postsHandler.getPostById);

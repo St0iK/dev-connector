@@ -11,7 +11,7 @@ const dbConfig = loadDbConfig();
 const config = Object.assign({
   [ENV]: true,
   env: ENV,
-  db: dbConfig
+  db: dbConfig || 'mongodb+srv://devconnector:123123123@cluster0-ztwjn.gcp.mongodb.net/test?retryWrites=true&w=majority'
 }, envConfig);
 
 module.exports = config;
