@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import { Link } from 'react-router-dom';
-import isEmpty from '../../utils/is-empty';
+import isEmpty from 'is-empty';
 
 class ProfileItem extends Component {
   render() {

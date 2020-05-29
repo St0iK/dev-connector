@@ -32,6 +32,7 @@ Preview: <a href="https://floating-inlet-27424.herokuapp.com/" target="_blank"> 
 ### Server Side
 
 - [x] **[Node.js / Express](https://github.com/expressjs/express)**
+- [x] **[Awilix IOC Container](https://github.com/jeffijoe/awilix)**
 - [x] **[MongoDB](https://github.com/mongodb/mongo)**
 - [x] **[JWT](https://github.com/auth0/node-jsonwebtoken)**
 - [x] **[Passport](http://www.passportjs.org/)**
