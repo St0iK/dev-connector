@@ -3,8 +3,6 @@ module.exports = {
     port: process.env.PORT
   },
   logging: {
-    appenders: [
-      { type: 'console', layout: { type: 'basic' } }
-    ]
+    appenders: { cheese: { type: 'console' } },
   }
 };

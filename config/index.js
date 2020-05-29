@@ -1,4 +1,4 @@
-require('dotenv').load();
+require('dotenv').config();
 
 const fs = require('fs');
 const path = require('path');
@@ -17,11 +17,11 @@ const config = Object.assign({
 module.exports = config;
 
 function loadDbConfig() {
-  if(process.env.DATABASE_URL) {
+  if (process.env.DATABASE_URL) {
     return process.env.DATABASE_URL;
   }
 
-  if(fs.existsSync(path.join(__dirname, './database.js'))) {
-    return require('./database')[ENV];
+  if (fs.existsSync(path.join(__dirname, './database.js'))) {
+    return require('../server/database')[ENV];
   }
 }

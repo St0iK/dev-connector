@@ -6,9 +6,7 @@ module.exports = {
     port: 3000
   },
   logging: {
-    appenders: [
-      { type: 'console' },
-      { type: 'file', filename: logPath }
-    ]
+    appenders: { cheese: { type: 'file', filename: logPath } },
+    categories: { default: { appenders: ["cheese"], level: "error" } }
   }
 };
