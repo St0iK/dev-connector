@@ -16,29 +16,14 @@ const container = createContainer();
 container
   .register({
     app: asClass(Application).singleton(),
-    server: asClass(Server).singleton()
-  })
-  .register({
+    server: asClass(Server).singleton(),
     router: asFunction(router).singleton(),
-    logger: asFunction(logger).singleton()
-  })
-  .register({
-    config: asValue(config)
-  });
-
-// Middlewares
-container
-  .register({
-    loggerMiddleware: asFunction(loggerMiddleware).singleton()
-  })
-  .register({
+    logger: asFunction(logger).singleton(),
+    config: asValue(config),
+    loggerMiddleware: asFunction(loggerMiddleware).singleton(),
     containerMiddleware: asValue(scopePerRequest(container)),
     errorHandler: asValue(config.production ? errorHandler : devErrorHandler),
+    database: asFunction(database),
   });
-
-// Database
-container.register({
-  database: asValue(database),
-});
 
 module.exports = container;

@@ -3,7 +3,7 @@ const logPath = path.join(__dirname, '../../logs/development.log');
 
 module.exports = {
   web: {
-    port: 3000
+    port: 5000
   },
   logging: {
     appenders: { cheese: { type: 'file', filename: logPath } },
