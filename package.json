@@ -23,7 +23,7 @@
     "gravatar": "^1.6.0",
     "http-status": "^1.4.2",
     "is-empty": "^1.2.0",
-    "jsonwebtoken": "^8.2.0",
+    "jsonwebtoken": "^9.0.0",
     "log4js": "^6.3.0",
     "mongoose": "^5.9.16",
     "morgan": "^1.10.0",
